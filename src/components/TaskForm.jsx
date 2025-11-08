@@ -1,106 +1,136 @@
 import React, { useState } from "react";
-
 import "./TaskForm.css";
-import Tag from "./Tag";
 
 const TaskForm = ({ setTasks }) => {
+  const [showForm, setShowForm] = useState(false);
   const [taskData, setTaskData] = useState({
-    task: "",
+    title: "",
+    description: "",
     status: "todo",
     tags: [],
   });
-
-  const checkTag = (tag) => {
-    return taskData.tags.some((item) => item === tag);
-  };
-
-  const selectTag = (tag) => {
-    if (taskData.tags.some((item) => item === tag)) {
-      const filterTags = taskData.tags.filter((item) => item !== tag);
-      setTaskData((prev) => {
-        return { ...prev, tags: filterTags };
-      });
-    } else {
-      setTaskData((prev) => {
-        return { ...prev, tags: [...prev.tags, tag] };
-      });
-    }
-  };
+  const [tagInput, setTagInput] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setTaskData((prev) => ({ ...prev, [name]: value }));
+  };
 
-    setTaskData((prev) => {
-      return { ...prev, [name]: value };
-    });
+  const handleAddTag = (e) => {
+    if (e.key === "Enter" && tagInput.trim()) {
+      e.preventDefault();
+      if (!taskData.tags.includes(tagInput.trim())) {
+        setTaskData((prev) => ({
+          ...prev,
+          tags: [...prev.tags, tagInput.trim()],
+        }));
+      }
+      setTagInput("");
+    }
+  };
+
+  const removeTag = (tagToRemove) => {
+    setTaskData((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((tag) => tag !== tagToRemove),
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(taskData);
-    setTasks((prev) => {
-      return [...prev, taskData];
-    });
-    setTaskData({
-      task: "",
-      status: "todo",
-      tags: [],
-    });
+    if (!taskData.title.trim()) return;
+
+    setTasks((prev) => [...prev, taskData]);
+    setTaskData({ title: "", description: "", status: "todo", tags: [] });
+    setShowForm(false);
   };
+
   return (
-    <header className="app_header">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="task"
-          value={taskData.task}
-          className="task_input"
-          placeholder="Enter your task"
-          onChange={handleChange}
-        />
+    <div className="task-form-container">
+      {/* Plus button to open modal */}
+      <button className="add-task-btn" onClick={() => setShowForm(true)}>
+        +
+      </button>
 
-        <div className="task_form_bottom_line">
-          <div>
-            <Tag
-              tagName="HTML"
-              selectTag={selectTag}
-              selected={checkTag("HTML")}
-            />
-            <Tag
-              tagName="CSS"
-              selectTag={selectTag}
-              selected={checkTag("CSS")}
-            />
-            <Tag
-              tagName="JavaScript"
-              selectTag={selectTag}
-              selected={checkTag("JavaScript")}
-            />
-            <Tag
-              tagName="React"
-              selectTag={selectTag}
-              selected={checkTag("React")}
-            />
-          </div>
+      {/* Modal popup */}
+      {showForm && (
+        <div className="modal-overlay" onClick={() => setShowForm(false)}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>Add New Task</h2>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="title"
+                placeholder="Task Title"
+                value={taskData.title}
+                onChange={handleChange}
+                required
+              />
 
-          <div>
-            <select
-              name="status"
-              value={taskData.status}
-              className="task_status"
-              onChange={handleChange}
-            >
-              <option value="todo">To do</option>
-              <option value="doing">Doing</option>
-              <option value="done">Done</option>
-            </select>
-            <button type="submit" className="task_submit">
-              + Add Task
-            </button>
+              <textarea
+                name="description"
+                placeholder="Task Description"
+                value={taskData.description}
+                onChange={handleChange}
+              ></textarea>
+
+              {/* Category Dropdown */}
+              <label>Status</label>
+              <select
+                name="status"
+                value={taskData.status}
+                onChange={handleChange}
+              >
+                <option value="todo">To Do</option>
+                <option value="doing">Doing</option>
+                <option value="done">Done</option>
+              </select>
+
+              {/* Tags Input */}
+              <label>Tags</label>
+              <div className="tag-input-container">
+                {taskData.tags.map((tag) => (
+                  <span className="tag-item" key={tag}>
+                    {tag}
+                    <button
+                      type="button"
+                      className="remove-tag"
+                      onClick={() => removeTag(tag)}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+                <input
+                  type="text"
+                  placeholder="Type and press Enter"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={handleAddTag}
+                />
+              </div>
+
+              {/* Buttons */}
+              <div className="form-actions">
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="submit-btn">
+                  Add Task
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </form>
-    </header>
+      )}
+    </div>
   );
 };
 

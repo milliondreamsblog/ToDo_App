@@ -1,28 +1,63 @@
 import React from "react";
-
 import "./TaskCard.css";
-import Tag from "./Tag";
 import deleteIcon from "../assets/delete.png";
 
-const TaskCard = ({ title, tags, handleDelete, index , setIsActiveCard }) => {
-    return (
-        <article className='task_card' draggable onDragStart={()=>setIsActiveCard(index)} onDragEnd={()=>setIsActiveCard(null)}>
-            <p className='task_text'>{title}</p>
+const statusColors = {
+  todo: "#6366F1",     // Indigo
+  doing: "#F59E0B",    // Amber
+  done: "#22C55E",     // Green
+};
 
-            <div className='task_card_bottom_line'>
-                <div className='task_card_tags'>
-                    {tags.map((tag, index) => (
-                        <Tag key={index} tagName={tag} selected />
-                    ))}
-                </div>
-                <div
-                    className='task_delete'
-                    onClick={() => handleDelete(index)}>
-                    <img src={deleteIcon} className='delete_icon' alt='' />
-                </div>
+const TaskCard = ({ title, description, tags, status, handleDelete, index, setIsActiveCard }) => {
+  return (
+    <article
+      className="task_card"
+      draggable
+      onDragStart={() => setIsActiveCard(index)}
+      onDragEnd={() => setIsActiveCard(null)}
+    >
+      {/* Header with status label */}
+            <div className="task_card_header">
+            {status ? (
+                <span
+                className="task_status_label"
+                style={{ backgroundColor: statusColors[status] || "#94a3b8" }}
+                >
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+                </span>
+            ) : (
+                <span
+                className="task_status_label"
+                style={{ backgroundColor: "#94a3b8" }}
+                >
+                Unknown
+                </span>
+            )}
+
+            <div className="task_delete" onClick={() => handleDelete(index)}>
+                <img src={deleteIcon} className="delete_icon" alt="delete" />
             </div>
-        </article>
-    );
+            </div>
+
+
+      {/* Task Content */}
+      <div className="task_card_content">
+        <h3 className="task_title">{title}</h3>
+        {description && <p className="task_description">{description}</p>}
+      </div>
+
+      {/* Tags */}
+      {tags && tags.length > 0 && (
+        <div className="task_card_tags">
+          {tags.map((tag, i) => (
+            <span key={i} className="tag_chip">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </article>
+  );
 };
 
 export default TaskCard;

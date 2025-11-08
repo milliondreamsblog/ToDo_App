@@ -1,51 +1,78 @@
 .task_card {
-    width: 100%;
-    min-height: 100px;
-    border: 1px solid #dcdcdc;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px 0;
-    cursor: grab;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.task_card:active{
-    opacity: 0.7;
-    border: 1px solid #111;
+.task_card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.task_text {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 15px;
+.task_card_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.task_card_bottom_line {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.task_status_label {
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .task_delete {
-    width: 35px;
-    height: 35px;
-    border-radius: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.2s;
 }
 
 .task_delete:hover {
-    background-color: #ebebeb;
+  background: #f3f4f6;
 }
 
 .delete_icon {
-    width: 20px;
-    opacity: 50%;
-    transition: all 0.3s ease-in-out;
+  width: 16px;
+  height: 16px;
 }
 
-.task_delete:hover .delete_icon {
-    opacity: 80%;
+.task_card_content {
+  margin-bottom: 0.5rem;
+}
+
+.task_title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.task_description {
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.3;
+}
+
+.task_card_tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag_chip {
+  background: #e0e7ff;
+  color: #4338ca;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
 }

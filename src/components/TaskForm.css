@@ -1,55 +1,157 @@
-.app_header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid #dcdcdc;
+.task-form-container {
+  position: relative;
+  margin-bottom: 1rem;
 }
 
-.app_header > form {
-    width: 40%;
+/* Plus button */
+.add-task-btn {
+  background: #4f46e5;
+  color: white;
+  font-size: 1.8rem;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+.add-task-btn:hover {
+  background: #4338ca;
+  transform: scale(1.05);
 }
 
-.task_input {
-    font-size: 20px;
-    font-weight: 500;
-    background: #f9f9f9;
-    color: #000;
-    border: 1px solid #dfe3e6;
-    border-radius: 5px;
-    padding: 8px 12px;
-    margin-bottom: 15px;
-    width: 100%;
+/* Modal overlay with blur */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
 }
 
-.task_input::placeholder {
-    color: #686868;
+/* Modal box */
+.modal-content {
+  background: white;
+  padding: 2rem;
+  width: 400px;
+  max-width: 90%;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.25s ease-in-out;
 }
 
-.task_form_bottom_line {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.task_status {
-    font-size: 16px;
-    font-weight: 500;
-    border: 1px solid #999;
-    border-radius: 5px;
-    width: 120px;
-    height: 40px;
-    padding: 0 5px;
+.modal-content h2 {
+  margin-bottom: 1rem;
+  color: #1e293b;
+  font-size: 1.3rem;
 }
 
-.task_submit {
-    font-size: 16px;
-    font-weight: 500;
-    background-color: #6457f9;
-    color: #fff;
-    border-radius: 5px;
-    height: 40px;
-    padding: 3px 13px;
-    margin-left: 10px;
-    border: none;
-    cursor: pointer;
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.modal-content textarea {
+  resize: none;
+  height: 80px;
+}
+
+.modal-content label {
+  font-size: 0.9rem;
+  color: #475569;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+/* Tags input */
+.tag-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px;
+}
+
+.tag-input-container input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 100px;
+}
+
+.tag-item {
+  background: #e0e7ff;
+  color: #3730a3;
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+}
+
+.remove-tag {
+  background: none;
+  border: none;
+  color: #6366f1;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-btn,
+.submit-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.cancel-btn {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.submit-btn {
+  background: #4f46e5;
+  color: white;
+}
+
+.submit-btn:hover {
+  background: #4338ca;
 }
