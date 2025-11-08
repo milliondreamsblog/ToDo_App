@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ClerkProvider } from "@clerk/clerk-react";
+import dotenv from "dotenv";
 import { BrowserRouter } from "react-router-dom";
-import Root from "./Root.jsx"; // we'll define routes there
+import Root from "./Root"; // we'll define routes there
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 

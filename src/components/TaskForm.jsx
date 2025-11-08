@@ -8,14 +8,21 @@ const TaskForm = ({ setTasks }) => {
     description: "",
     status: "todo",
     tags: [],
+    dueDate: "",
+    reminder: false,
   });
   const [tagInput, setTagInput] = useState("");
 
+  // Handle text, dropdown, date, checkbox changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setTaskData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setTaskData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
+  // Add new tag
   const handleAddTag = (e) => {
     if (e.key === "Enter" && tagInput.trim()) {
       e.preventDefault();
@@ -29,6 +36,7 @@ const TaskForm = ({ setTasks }) => {
     }
   };
 
+  // Remove tag
   const removeTag = (tagToRemove) => {
     setTaskData((prev) => ({
       ...prev,
@@ -36,12 +44,26 @@ const TaskForm = ({ setTasks }) => {
     }));
   };
 
+  // Submit form
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!taskData.title.trim()) return;
 
-    setTasks((prev) => [...prev, taskData]);
-    setTaskData({ title: "", description: "", status: "todo", tags: [] });
+    // Add timestamp for tracking
+    const newTask = {
+      ...taskData,
+      createdAt: new Date().toISOString(),
+    };
+
+    setTasks((prev) => [...prev, newTask]);
+    setTaskData({
+      title: "",
+      description: "",
+      status: "todo",
+      tags: [],
+      dueDate: "",
+      reminder: false,
+    });
     setShowForm(false);
   };
 
@@ -55,12 +77,10 @@ const TaskForm = ({ setTasks }) => {
       {/* Modal popup */}
       {showForm && (
         <div className="modal-overlay" onClick={() => setShowForm(false)}>
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>Add New Task</h2>
             <form onSubmit={handleSubmit}>
+              {/* Title */}
               <input
                 type="text"
                 name="title"
@@ -70,6 +90,7 @@ const TaskForm = ({ setTasks }) => {
                 required
               />
 
+              {/* Description */}
               <textarea
                 name="description"
                 placeholder="Task Description"
@@ -77,7 +98,7 @@ const TaskForm = ({ setTasks }) => {
                 onChange={handleChange}
               ></textarea>
 
-              {/* Category Dropdown */}
+              {/* Status Dropdown */}
               <label>Status</label>
               <select
                 name="status"
@@ -88,6 +109,26 @@ const TaskForm = ({ setTasks }) => {
                 <option value="doing">Doing</option>
                 <option value="done">Done</option>
               </select>
+
+              {/* Due Date Picker */}
+              <label>Due Date</label>
+              <input
+                type="date"
+                name="dueDate"
+                value={taskData.dueDate}
+                onChange={handleChange}
+              />
+
+              {/* Reminder Checkbox */}
+              <label className="reminder-label">
+                <input
+                  type="checkbox"
+                  name="reminder"
+                  checked={taskData.reminder}
+                  onChange={handleChange}
+                />
+                Set Reminder (notify when close to due date)
+              </label>
 
               {/* Tags Input */}
               <label>Tags</label>
@@ -135,3 +176,4 @@ const TaskForm = ({ setTasks }) => {
 };
 
 export default TaskForm;
+  

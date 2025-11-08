@@ -26,9 +26,11 @@ const TaskColumn = ({
             <React.Fragment key={index}>
               <TaskCard
                 title={task.title}
-                description={task.description}      // ✅ Added
+                description={task.description}
                 tags={task.tags}
-                status={task.status}                // ✅ Added
+                status={task.status}
+                dueDate={task.dueDate}      
+                reminder={task.reminder}     
                 handleDelete={handleDelete}
                 index={index}
                 setIsActiveCard={setIsActiveCard}
