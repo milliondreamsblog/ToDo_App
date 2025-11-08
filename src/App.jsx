@@ -7,6 +7,7 @@ import doingIcon from "./assets/glowing-star.png";
 import doneIcon from "./assets/check-mark-button.png";
 import SideBar from "./components/SideBar";
 import NavBar from "./components/NavBar";
+import KanbanBoard from "./components/dashboard";
 
 const oldTasks = localStorage.getItem("tasks");
 
@@ -39,35 +40,8 @@ const App = () => {
         </div>
 
         <div className="main-content">
-          <TaskForm setTasks={setTasks} />
-          <main className="task-columns">
-            <TaskColumn
-              title="To do"
-              icon={todoIcon}
-              tasks={tasks}
-              status="todo"
-              handleDelete={handleDelete}
-              setIsActiveCard={setIsActiveCard}
-              onDrop={onDrop}
-            />
-            <TaskColumn
-              title="Doing"
-              icon={doingIcon}
-              tasks={tasks}
-              status="doing"
-              handleDelete={handleDelete}
-              setIsActiveCard={setIsActiveCard}
-              onDrop={onDrop}
-            />
-            <TaskColumn
-              title="Done"
-              icon={doneIcon}
-              tasks={tasks}
-              status="done"
-              handleDelete={handleDelete}
-              setIsActiveCard={setIsActiveCard}
-              onDrop={onDrop}
-            />
+          <main>
+            <KanbanBoard />
           </main>
 
           <p className="active-card-label">Active card - {isActiveCard}</p>
